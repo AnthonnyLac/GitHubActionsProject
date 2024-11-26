@@ -23,7 +23,7 @@ jobs:
 
 
     - name: Start postgree
-      run:  docker-compose up -d postgres
+      run:  docker compose up -d postgres
     
 
     - name: Restore dependencies (API)
