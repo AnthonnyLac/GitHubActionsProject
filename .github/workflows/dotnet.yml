@@ -21,6 +21,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Set environment variable for connection string
+      run: echo "ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}" >> $GITHUB_ENV
 
     - name: Start postgree
       run:  docker compose up -d postgres
@@ -42,3 +44,12 @@ jobs:
       
     - name: Test
       run: dotnet test tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj --no-build --configuration Release --verbosity normal
+    
+    # Upload Artefato (Exemplo: pasta bin/Release)
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: GitHubActionsProject-Release
+        path: |
+          src/GitHubActionsProject.API/bin/Release/
+          tests/GitHubActionsProject.Tests/bin/Release/
