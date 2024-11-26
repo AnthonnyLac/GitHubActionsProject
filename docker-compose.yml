@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  githubactionsproject.api:
+    image: ${DOCKER_REGISTRY-}githubactionsprojectapi
+    build:
+      context: .
+      dockerfile: src/GitHubActionsProject.API/Dockerfile
