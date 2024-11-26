@@ -21,9 +21,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Start Db
-      run: docker-compose up -d postgres
-    
+
     - name: Restore dependencies
       run: dotnet restore
       
