@@ -22,9 +22,13 @@ jobs:
         dotnet-version: 8.0.x
 
 
-    - name: Restore dependencies
+    - name: Restore dependencies (API)
       run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
-      
+
+    # Restaurar dependências para o projeto de testes
+    - name: Restore dependencies (Tests)
+      run: dotnet restore tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj
+    
     - name: Build
       run: dotnet build src/GitHubActionsProject.API/GitHubActionsProject.API.csproj --no-restore --configuration Release
     
