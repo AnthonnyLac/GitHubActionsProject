@@ -1,8 +1,50 @@
 version: '3.4'
 
 services:
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "root@teste.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-compose-network
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: root
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_LISTEN_ADDRESSES: '*' 
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
   githubactionsproject.api:
     image: ${DOCKER_REGISTRY-}githubactionsprojectapi
     build:
       context: .
       dockerfile: src/GitHubActionsProject.API/Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      ConnectionStrings_DefaultConnection: "Host=postgres;Port=5432;Database=root;Username=root;Password=root;"
+    networks:
+      - postgres-compose-network
+  
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+
