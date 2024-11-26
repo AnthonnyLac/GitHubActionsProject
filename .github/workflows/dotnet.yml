@@ -23,7 +23,7 @@ jobs:
 
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
       
     - name: Build
       run: dotnet build --no-restore
