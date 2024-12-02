@@ -38,5 +38,5 @@ jobs:
         push: true
         
         # List of tags
-        tags: anthonnylac/go_ci:${{github.ref_name}}
+        tags: anthonnylac/git_hub_actions_project_ci:${{ github.sha }}
 
