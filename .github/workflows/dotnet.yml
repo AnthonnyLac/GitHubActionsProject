@@ -21,8 +21,6 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Start postgree
-      run:  docker compose up -d postgres
       
     # Restaurar dependências para o projeto de testes
     - name: Restore dependencies (Tests)
@@ -45,10 +43,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
+    - name: Start postgree
+      run:  docker compose up -d postgres
 
     - name: Set environment variable for connection string
       run: echo "ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}" >> $GITHUB_ENV
-
+  
     - name: Restore dependencies 
       run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
 
