@@ -38,6 +38,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    env:
+      ConnectionStrings_DefaultConnection: ${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}
 
     steps:
     - uses: actions/checkout@v4
@@ -47,7 +49,7 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: Set environment variable for connection string
-      run: echo "ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}" >> $GITHUB_ENV
+      run: echo "ConnectionStrings_DefaultConnection=${{ env.ConnectionStrings_DefaultConnection }}" >> $GITHUB_ENV
   
     - name: Restore dependencies 
       run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
