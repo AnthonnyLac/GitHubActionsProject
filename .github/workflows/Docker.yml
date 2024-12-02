@@ -33,7 +33,7 @@ jobs:
 
         context: .
         # Path to the Dockerfile
-        file: ./DockerFile
+        file: ./src/GitHubActionsProject.API/DockerFile
         # List of metadata for an image
         push: true
         
