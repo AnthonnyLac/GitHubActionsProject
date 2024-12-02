@@ -65,3 +65,8 @@ jobs:
         path: |
           src/GitHubActionsProject.API/bin/Release/
           tests/GitHubActionsProject.Tests/bin/Release/
+
+  docker:
+    secrets: inherit
+    needs: build
+    uses: ./.github/workflows/Docker.yml
