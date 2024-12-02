@@ -10,7 +10,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  Ci:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -21,29 +21,39 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Set environment variable for connection string
-      run: echo "ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}" >> $GITHUB_ENV
-
     - name: Start postgree
       run:  docker compose up -d postgres
-    
-
-    - name: Restore dependencies (API)
-      run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
-
+      
     # Restaurar dependências para o projeto de testes
     - name: Restore dependencies (Tests)
       run: dotnet restore tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj
-    
-    - name: Build
-      run: dotnet build src/GitHubActionsProject.API/GitHubActionsProject.API.csproj --no-restore --configuration Release
-    
+
     # Build do projeto de testes
     - name: Build the test project
       run: dotnet build tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj --no-restore --configuration Release
-      
+
     - name: Test
-      run: dotnet test tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj --no-build --configuration Release --verbosity normal
+      run: dotnet test tests/GitHubActionsProject.Tests/GitHubActionsProject.Tests.csproj --no-build --configuration Release --verbosity normal  
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Set environment variable for connection string
+      run: echo "ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}" >> $GITHUB_ENV
+  
+    - name: Restore dependencies 
+      run: dotnet restore src/GitHubActionsProject.API/GitHubActionsProject.API.csproj
+
+    - name: Build
+      run: dotnet build src/GitHubActionsProject.API/GitHubActionsProject.API.csproj --no-restore --configuration Release
     
     # Upload Artefato (Exemplo: pasta bin/Release)
     - name: Upload build artifact
