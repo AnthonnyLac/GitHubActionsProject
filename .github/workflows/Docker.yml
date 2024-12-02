@@ -36,6 +36,7 @@ jobs:
         file: ./DockerFile
         # List of metadata for an image
         push: true
+        
         # List of tags
         tags: anthonnylac/git_hub_actions_project_ci:${{github.ref_name}}
             
