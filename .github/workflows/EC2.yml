@@ -35,6 +35,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          export ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}
+          export  ConnectionStrings_DefaultConnection=${{ secrets.CONNECTIONSTRINGS_DEFAULTCONNECTION }}
       
       
