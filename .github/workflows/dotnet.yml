@@ -70,3 +70,10 @@ jobs:
     secrets: inherit
     needs: build
     uses: ./.github/workflows/Docker.yml
+
+  deploy_EC2:
+    secrets: inherit
+    needs: build
+    uses: ./.github/workflows/EC2.yml
+
+
